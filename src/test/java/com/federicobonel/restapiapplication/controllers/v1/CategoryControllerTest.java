@@ -1,0 +1,84 @@
+package com.federicobonel.restapiapplication.controllers.v1;
+
+import com.federicobonel.restapiapplication.api.v1.model.CategoryDTO;
+import com.federicobonel.restapiapplication.services.CategoryService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.List;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+class CategoryControllerTest {
+
+    public static final long ID = 1L;
+    public static final String CATEGORY_NAME = "Category name";
+    public static final String URL = "https://example.com";
+
+    @Mock
+    CategoryService categoryService;
+    @InjectMocks
+    CategoryController categoryController;
+
+    MockMvc mockMvc;
+
+    CategoryDTO category;
+    List<CategoryDTO> categories;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(categoryController).build();
+
+        category = new CategoryDTO();
+        category.setId(ID);
+        category.setName(CATEGORY_NAME);
+        category.setCategoryUrl(URL);
+
+        categories = List.of(new CategoryDTO(), new CategoryDTO(), new CategoryDTO());
+    }
+
+    @Test
+    void getAllCategories() throws Exception {
+        when(categoryService.getCategories()).thenReturn(categories);
+
+        mockMvc.perform(get("/api/v1/categories"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.categories", hasSize(categories.size())));
+
+        verify(categoryService).getCategories();
+    }
+
+    @Test
+    void getCategoryById() throws Exception {
+        when(categoryService.getCategoryById(ID)).thenReturn(category);
+
+        mockMvc.perform(get("/api/v1/categories/" + ID))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", equalTo(Math.toIntExact(category.getId()))));
+
+        verify(categoryService).getCategoryById(ID);
+    }
+
+    @Test
+    void getCategoryByName() throws Exception {
+        when(categoryService.getCategoryByName(CATEGORY_NAME)).thenReturn(category);
+
+        mockMvc.perform(get("/api/v1/categories/name/" + CATEGORY_NAME))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", equalTo(CATEGORY_NAME)));
+
+        verify(categoryService).getCategoryByName(CATEGORY_NAME);
+    }
+}

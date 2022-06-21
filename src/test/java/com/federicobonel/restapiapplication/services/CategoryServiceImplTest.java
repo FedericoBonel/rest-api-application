@@ -12,7 +12,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -56,7 +56,7 @@ class CategoryServiceImplTest {
 
     @Test
     void getCategoryByName() {
-        when(categoryRepository.findByName(CATEGORY_NAME)).thenReturn(category);
+        when(categoryRepository.findByNameContainingIgnoreCase(CATEGORY_NAME)).thenReturn(category);
 
         assertEquals(CATEGORY_NAME, categoryService.getCategoryByName(CATEGORY_NAME).getName());
     }

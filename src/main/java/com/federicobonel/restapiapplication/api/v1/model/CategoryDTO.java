@@ -1,6 +1,6 @@
 package com.federicobonel.restapiapplication.api.v1.model;
 
-import lombok.*;
+import lombok.Data;
 
 @Data
 public class CategoryDTO {
