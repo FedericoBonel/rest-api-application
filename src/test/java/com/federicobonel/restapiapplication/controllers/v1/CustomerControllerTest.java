@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -18,9 +19,11 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -29,7 +32,7 @@ class CustomerControllerTest {
     public static final long ID = 1L;
     public static final String NAME = "Federico";
     public static final String LASTNAME = "Bonel";
-    public static final String CUSTOMER_URL = "https://randomUrl.com";
+    public static final String CUSTOMER_URL = "/api/v1/customers/" + ID;
 
     CustomerDTO customer;
     List<CustomerDTO> customers;
@@ -77,5 +80,19 @@ class CustomerControllerTest {
                 .andExpect(jsonPath("$.id", equalTo(Math.toIntExact(customer.getId()))));
 
         verify(customerService).getById(ID);
+    }
+
+    @Test
+    void createNewUser() throws Exception {
+        when(customerService.saveCustomer(any(CustomerDTO.class))).thenReturn(customer);
+
+        mockMvc.perform(post("/api/v1/customers/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(ObjectToJson.convertToJson(customer)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name", equalTo(NAME)))
+                .andExpect(jsonPath("$.customer_url", equalTo(CUSTOMER_URL)));
+
+        verify(customerService).saveCustomer(any(CustomerDTO.class));
     }
 }

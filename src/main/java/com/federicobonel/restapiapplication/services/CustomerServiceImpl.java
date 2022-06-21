@@ -2,6 +2,7 @@ package com.federicobonel.restapiapplication.services;
 
 import com.federicobonel.restapiapplication.api.v1.mapper.CustomerMapper;
 import com.federicobonel.restapiapplication.api.v1.model.CustomerDTO;
+import com.federicobonel.restapiapplication.model.Customer;
 import com.federicobonel.restapiapplication.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,15 @@ public class CustomerServiceImpl implements CustomerService {
                     return customerDTO;
                 })
                 .orElse(null);
+    }
+
+    @Override
+    public CustomerDTO saveCustomer(CustomerDTO customerDTO) {
+        Customer savedCustomer = customerRepository.save(customerMapper.customerDTOToCustomer(customerDTO));
+        CustomerDTO customerToReturn = customerMapper.customerToCustomerDTO(savedCustomer);
+        customerToReturn.setCustomerUrl(BASE_URL + customerToReturn.getId());
+
+        return customerToReturn;
     }
 
 }

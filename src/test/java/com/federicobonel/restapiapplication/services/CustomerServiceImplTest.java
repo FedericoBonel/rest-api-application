@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -29,6 +30,7 @@ class CustomerServiceImplTest {
     @Mock
     CustomerRepository customerRepository;
     CustomerService customerService;
+    CustomerMapper customerMapper = CustomerMapper.INSTANCE;
 
     @BeforeEach
     void setUp() {
@@ -63,5 +65,17 @@ class CustomerServiceImplTest {
         assertEquals(ID, foundCustomer.getId());
         assertEquals(CUSTOMER_URL, foundCustomer.getCustomerUrl());
         verify(customerRepository).findById(ID);
+    }
+
+    @Test
+    void saveCustomer() {
+        when(customerRepository.save(any(Customer.class))).thenReturn(customer);
+
+        CustomerDTO savedCustomer = customerService.saveCustomer(customerMapper.customerToCustomerDTO(customer));
+
+        assertEquals(ID, savedCustomer.getId());
+        assertEquals(NAME, savedCustomer.getName());
+        assertEquals(LASTNAME, savedCustomer.getLastname());
+        assertEquals(CUSTOMER_URL, savedCustomer.getCustomerUrl());
     }
 }

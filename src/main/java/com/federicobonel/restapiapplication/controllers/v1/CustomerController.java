@@ -7,9 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @Controller
@@ -36,5 +34,12 @@ public class CustomerController {
         log.info("Getting customer with id " + customerId);
 
         return new ResponseEntity<>(customerService.getById(customerId), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<CustomerDTO> saveCustomer(@RequestBody CustomerDTO customerDTO) {
+        log.info("Saving customer " + customerDTO.getName());
+
+        return new ResponseEntity<>(customerService.saveCustomer(customerDTO), HttpStatus.CREATED);
     }
 }
