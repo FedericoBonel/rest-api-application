@@ -27,7 +27,7 @@ public class CategoryController {
         log.info("Finding all categories...");
 
         return new ResponseEntity<>(
-                new CategoryListDTO(categoryService.getCategories()), HttpStatus.OK
+                new CategoryListDTO(categoryService.getAll()), HttpStatus.OK
         );
     }
 

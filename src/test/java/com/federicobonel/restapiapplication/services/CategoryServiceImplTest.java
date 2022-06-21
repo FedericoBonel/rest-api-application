@@ -48,7 +48,7 @@ class CategoryServiceImplTest {
     void getCategories() {
         when(categoryRepository.findAll()).thenReturn(categories);
 
-        List<CategoryDTO> categoriesFound = categoryService.getCategories();
+        List<CategoryDTO> categoriesFound = categoryService.getAll();
 
         assertEquals(categories.size(), categoriesFound.size());
         verify(categoryRepository).findAll();

@@ -51,13 +51,13 @@ class CategoryControllerTest {
 
     @Test
     void getAllCategories() throws Exception {
-        when(categoryService.getCategories()).thenReturn(categories);
+        when(categoryService.getAll()).thenReturn(categories);
 
         mockMvc.perform(get("/api/v1/categories"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.categories", hasSize(categories.size())));
 
-        verify(categoryService).getCategories();
+        verify(categoryService).getAll();
     }
 
     @Test
