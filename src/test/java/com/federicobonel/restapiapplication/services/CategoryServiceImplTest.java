@@ -20,7 +20,7 @@ class CategoryServiceImplTest {
 
     public static final long ID = 1L;
     public static final String CATEGORY_NAME = "Category name";
-    public static final String URL = "https://example.com";
+    public static final String URL = "/api/v1/categories/";
 
     @Mock
     CategoryRepository categoryRepository;
@@ -39,7 +39,6 @@ class CategoryServiceImplTest {
         category = new Category();
         category.setId(ID);
         category.setName(CATEGORY_NAME);
-        category.setCategoryUrl(URL);
 
         categories = List.of(new Category(), new Category(), new Category());
     }
@@ -58,13 +57,19 @@ class CategoryServiceImplTest {
     void getCategoryByName() {
         when(categoryRepository.findByNameContainingIgnoreCase(CATEGORY_NAME)).thenReturn(category);
 
-        assertEquals(CATEGORY_NAME, categoryService.getCategoryByName(CATEGORY_NAME).getName());
+        CategoryDTO foundCategory = categoryService.getCategoryByName(CATEGORY_NAME);
+
+        assertEquals(CATEGORY_NAME, foundCategory.getName());
+        assertEquals(URL + ID, foundCategory.getCategoryUrl());
     }
 
     @Test
     void getCategoryById() {
         when(categoryRepository.findById(ID)).thenReturn(Optional.of(category));
 
-        assertEquals(ID, categoryService.getCategoryById(ID).getId());
+        CategoryDTO foundCategory = categoryService.getCategoryById(ID);
+
+        assertEquals(ID, foundCategory.getId());
+        assertEquals(URL + ID, foundCategory.getCategoryUrl());
     }
 }

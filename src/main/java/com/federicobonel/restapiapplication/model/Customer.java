@@ -22,9 +22,6 @@ public class Customer {
     @Column(name = "lastname")
     private String lastname;
 
-    @Column(name = "customerUrl")
-    private String customerUrl;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

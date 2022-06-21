@@ -21,7 +21,7 @@ class CustomerServiceImplTest {
     public static final long ID = 1L;
     public static final String NAME = "Federico";
     public static final String LASTNAME = "Bonel";
-    public static final String CUSTOMER_URL = "https://randomUrl.com";
+    public static final String CUSTOMER_URL = "/api/v1/customers/" + ID;
 
     Customer customer;
     List<Customer> customers;
@@ -40,7 +40,6 @@ class CustomerServiceImplTest {
         customer.setId(ID);
         customer.setName(NAME);
         customer.setLastname(LASTNAME);
-        customer.setCustomerUrl(CUSTOMER_URL);
 
         customers = List.of(new Customer(), new Customer(), new Customer());
     }
@@ -62,6 +61,7 @@ class CustomerServiceImplTest {
         CustomerDTO foundCustomer = customerService.getById(ID);
 
         assertEquals(ID, foundCustomer.getId());
+        assertEquals(CUSTOMER_URL, foundCustomer.getCustomerUrl());
         verify(customerRepository).findById(ID);
     }
 }

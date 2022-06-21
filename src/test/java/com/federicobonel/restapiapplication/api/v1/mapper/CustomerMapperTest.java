@@ -24,7 +24,6 @@ class CustomerMapperTest {
         customer.setId(ID);
         customer.setName(NAME);
         customer.setLastname(LASTNAME);
-        customer.setCustomerUrl(CUSTOMER_URL);
     }
 
     @Test
@@ -35,7 +34,6 @@ class CustomerMapperTest {
         assertEquals(customer.getId(), mappedCustomer.getId());
         assertEquals(customer.getName(), mappedCustomer.getName());
         assertEquals(customer.getLastname(), mappedCustomer.getLastname());
-        assertEquals(customer.getCustomerUrl(), mappedCustomer.getCustomerUrl());
 
     }
 

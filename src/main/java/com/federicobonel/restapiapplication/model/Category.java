@@ -24,9 +24,6 @@ public class Category {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "category_url")
-    private String categoryUrl;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
