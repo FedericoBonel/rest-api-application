@@ -2,6 +2,7 @@ package com.federicobonel.restapiapplication.services;
 
 import com.federicobonel.restapiapplication.api.v1.mapper.CustomerMapper;
 import com.federicobonel.restapiapplication.api.v1.model.CustomerDTO;
+import com.federicobonel.restapiapplication.controllers.v1.CustomerController;
 import com.federicobonel.restapiapplication.model.Customer;
 import com.federicobonel.restapiapplication.repositories.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +23,7 @@ class CustomerServiceImplTest {
     public static final long ID = 1L;
     public static final String NAME = "Federico";
     public static final String LASTNAME = "Bonel";
-    public static final String CUSTOMER_URL = "/api/v1/customers/" + ID;
+    public static final String CUSTOMER_URL = CustomerController.BASE_URL_CUSTOMERS + "/" + ID;
 
     Customer customer;
     List<Customer> customers;

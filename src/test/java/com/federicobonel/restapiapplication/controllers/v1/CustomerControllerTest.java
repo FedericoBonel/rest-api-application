@@ -28,7 +28,7 @@ class CustomerControllerTest {
     public static final long ID = 1L;
     public static final String NAME = "Federico";
     public static final String LASTNAME = "Bonel";
-    public static final String CUSTOMER_URL = "/api/v1/customers/" + ID;
+    public static final String CUSTOMER_URL = CustomerController.BASE_URL_CUSTOMERS + "/" + ID;
 
     CustomerDTO customer;
     List<CustomerDTO> customers;
@@ -60,7 +60,7 @@ class CustomerControllerTest {
     void getAll() throws Exception {
         when(customerService.getAll()).thenReturn(customers);
 
-        mockMvc.perform(get("/api/v1/customers/"))
+        mockMvc.perform(get(CustomerController.BASE_URL_CUSTOMERS))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.customers", hasSize(customers.size())));
 
@@ -71,7 +71,7 @@ class CustomerControllerTest {
     void findById() throws Exception {
         when(customerService.getById(ID)).thenReturn(customer);
 
-        mockMvc.perform(get("/api/v1/customers/" + ID))
+        mockMvc.perform(get(CUSTOMER_URL))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", equalTo(Math.toIntExact(customer.getId()))));
 
@@ -82,7 +82,7 @@ class CustomerControllerTest {
     void createNewCustomer() throws Exception {
         when(customerService.createCustomer(any(CustomerDTO.class))).thenReturn(customer);
 
-        mockMvc.perform(post("/api/v1/customers/")
+        mockMvc.perform(post(CustomerController.BASE_URL_CUSTOMERS)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ObjectToJson.convertToJson(customer)))
                 .andExpect(status().isCreated())
@@ -96,7 +96,7 @@ class CustomerControllerTest {
     void updateCustomer() throws Exception {
         when(customerService.updateCustomer(anyLong(), any(CustomerDTO.class))).thenReturn(customer);
 
-        mockMvc.perform(put("/api/v1/customers/" + ID)
+        mockMvc.perform(put(CUSTOMER_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ObjectToJson.convertToJson(customer)))
                 .andExpect(status().isOk())
@@ -112,7 +112,7 @@ class CustomerControllerTest {
     void patchCustomer() throws Exception {
         when(customerService.patchCustomer(anyLong(), any(CustomerDTO.class))).thenReturn(customer);
 
-        mockMvc.perform(patch("/api/v1/customers/" + ID)
+        mockMvc.perform(patch(CUSTOMER_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ObjectToJson.convertToJson(customer)))
                 .andExpect(status().isOk())
@@ -127,7 +127,7 @@ class CustomerControllerTest {
     @Test
     void deleteCustomer() throws Exception {
 
-        mockMvc.perform(delete("/api/v1/customers/" + ID))
+        mockMvc.perform(delete(CUSTOMER_URL))
                 .andExpect(status().isOk());
 
         verify(customerService).deleteCustomerById(anyLong());

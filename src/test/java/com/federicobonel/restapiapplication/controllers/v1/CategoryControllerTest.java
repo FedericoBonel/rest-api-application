@@ -22,9 +22,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class CategoryControllerTest {
 
-    public static final long ID = 1L;
+    public static final Long ID = 1L;
     public static final String CATEGORY_NAME = "Category name";
-    public static final String URL = "https://example.com";
+    public static final String CATEGORY_URL = CategoryController.BASE_URL_CATEGORIES + "/" + ID;
+    public static final String CATEGORY_URL_NAME = CategoryController.BASE_URL_CATEGORIES + "/name/" + CATEGORY_NAME;
 
     @Mock
     CategoryService categoryService;
@@ -44,7 +45,6 @@ class CategoryControllerTest {
         category = new CategoryDTO();
         category.setId(ID);
         category.setName(CATEGORY_NAME);
-        category.setCategoryUrl(URL);
 
         categories = List.of(new CategoryDTO(), new CategoryDTO(), new CategoryDTO());
     }
@@ -53,7 +53,7 @@ class CategoryControllerTest {
     void getAllCategories() throws Exception {
         when(categoryService.getAll()).thenReturn(categories);
 
-        mockMvc.perform(get("/api/v1/categories"))
+        mockMvc.perform(get(CategoryController.BASE_URL_CATEGORIES))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.categories", hasSize(categories.size())));
 
@@ -64,7 +64,7 @@ class CategoryControllerTest {
     void getCategoryById() throws Exception {
         when(categoryService.getCategoryById(ID)).thenReturn(category);
 
-        mockMvc.perform(get("/api/v1/categories/" + ID))
+        mockMvc.perform(get(CATEGORY_URL))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", equalTo(Math.toIntExact(category.getId()))));
 
@@ -75,7 +75,7 @@ class CategoryControllerTest {
     void getCategoryByName() throws Exception {
         when(categoryService.getCategoryByName(CATEGORY_NAME)).thenReturn(category);
 
-        mockMvc.perform(get("/api/v1/categories/name/" + CATEGORY_NAME))
+        mockMvc.perform(get(CATEGORY_URL_NAME))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo(CATEGORY_NAME)));
 

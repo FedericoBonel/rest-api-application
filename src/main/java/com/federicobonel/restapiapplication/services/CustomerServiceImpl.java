@@ -2,6 +2,8 @@ package com.federicobonel.restapiapplication.services;
 
 import com.federicobonel.restapiapplication.api.v1.mapper.CustomerMapper;
 import com.federicobonel.restapiapplication.api.v1.model.CustomerDTO;
+import com.federicobonel.restapiapplication.controllers.v1.CustomerController;
+import com.federicobonel.restapiapplication.exceptions.ResourceNotFoundException;
 import com.federicobonel.restapiapplication.model.Customer;
 import com.federicobonel.restapiapplication.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
-    private final String BASE_URL = "/api/v1/customers/";
 
     public CustomerServiceImpl(CustomerRepository customerRepository, CustomerMapper customerMapper) {
         this.customerRepository = customerRepository;
@@ -27,7 +28,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .stream()
                 .map(customer -> {
                     CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
-                    customerDTO.setCustomerUrl(BASE_URL + customerDTO.getId());
+                    customerDTO.setCustomerUrl(generateUrlForId(customerDTO.getId()));
                     return customerDTO;
                 })
                 .collect(Collectors.toList());
@@ -38,10 +39,10 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findById(id)
                 .map(customerMapper::customerToCustomerDTO)
                 .map(customerDTO -> {
-                    customerDTO.setCustomerUrl(BASE_URL + customerDTO.getId());
+                    customerDTO.setCustomerUrl(generateUrlForId(customerDTO.getId()));
                     return customerDTO;
                 })
-                .orElse(null);
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
@@ -58,7 +59,7 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerDTO saveCustomer(CustomerDTO customerDTO) {
         Customer savedCustomer = customerRepository.save(customerMapper.customerDTOToCustomer(customerDTO));
         CustomerDTO customerToReturn = customerMapper.customerToCustomerDTO(savedCustomer);
-        customerToReturn.setCustomerUrl(BASE_URL + customerToReturn.getId());
+        customerToReturn.setCustomerUrl(generateUrlForId(customerToReturn.getId()));
 
         return customerToReturn;
     }
@@ -77,15 +78,19 @@ public class CustomerServiceImpl implements CustomerService {
                     }
 
                     CustomerDTO savedCustomer = customerMapper.customerToCustomerDTO(customerRepository.save(customerInDB));
-                    savedCustomer.setCustomerUrl(BASE_URL + id);
+                    savedCustomer.setCustomerUrl(generateUrlForId(id));
                     return savedCustomer;
                 })
-                .orElseThrow(() -> new RuntimeException("Customer with id " + id + " not found"));
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
     public void deleteCustomerById(Long id) {
         customerRepository.deleteById(id);
+    }
+
+    private String generateUrlForId(Long id) {
+        return CustomerController.BASE_URL_CUSTOMERS + "/" + id;
     }
 
 }

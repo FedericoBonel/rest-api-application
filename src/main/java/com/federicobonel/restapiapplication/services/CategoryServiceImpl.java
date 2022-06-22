@@ -2,6 +2,8 @@ package com.federicobonel.restapiapplication.services;
 
 import com.federicobonel.restapiapplication.api.v1.mapper.CategoryMapper;
 import com.federicobonel.restapiapplication.api.v1.model.CategoryDTO;
+import com.federicobonel.restapiapplication.controllers.v1.CategoryController;
+import com.federicobonel.restapiapplication.exceptions.ResourceNotFoundException;
 import com.federicobonel.restapiapplication.model.Category;
 import com.federicobonel.restapiapplication.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
-    private final static String BASE_URL = "/api/v1/categories/";
 
     public CategoryServiceImpl(CategoryRepository categoryRepository, CategoryMapper categoryMapper) {
         this.categoryRepository = categoryRepository;
@@ -27,7 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .stream()
                 .map(category -> {
                     CategoryDTO categoryDTO = categoryMapper.categoryToCategoryDTO(category);
-                    categoryDTO.setCategoryUrl(BASE_URL + category.getId());
+                    categoryDTO.setCategoryUrl(generateUrlForId(category.getId()));
                     return categoryDTO;
                 })
                 .collect(Collectors.toList());
@@ -37,7 +38,8 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDTO getCategoryByName(String name) {
         CategoryDTO categoryDTO = categoryMapper
                 .categoryToCategoryDTO(categoryRepository.findByNameContainingIgnoreCase(name));
-        categoryDTO.setCategoryUrl(BASE_URL + categoryDTO.getId());
+        if (categoryDTO == null) throw new ResourceNotFoundException();
+        categoryDTO.setCategoryUrl(generateUrlForId(categoryDTO.getId()));
 
         return categoryDTO;
     }
@@ -47,9 +49,13 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findById(id)
                 .map(categoryMapper::categoryToCategoryDTO)
                 .map(categoryDTO -> {
-                    categoryDTO.setCategoryUrl(BASE_URL + categoryDTO.getId());
+                    categoryDTO.setCategoryUrl(generateUrlForId(categoryDTO.getId()));
                     return categoryDTO;
                 })
-                .orElse(null);
+                .orElseThrow(ResourceNotFoundException::new);
+    }
+
+    private String generateUrlForId(Long id) {
+        return CategoryController.BASE_URL_CATEGORIES + "/" + id;
     }
 }

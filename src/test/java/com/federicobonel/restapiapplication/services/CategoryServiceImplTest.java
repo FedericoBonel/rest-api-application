@@ -2,6 +2,7 @@ package com.federicobonel.restapiapplication.services;
 
 import com.federicobonel.restapiapplication.api.v1.mapper.CategoryMapper;
 import com.federicobonel.restapiapplication.api.v1.model.CategoryDTO;
+import com.federicobonel.restapiapplication.controllers.v1.CategoryController;
 import com.federicobonel.restapiapplication.model.Category;
 import com.federicobonel.restapiapplication.repositories.CategoryRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +21,7 @@ class CategoryServiceImplTest {
 
     public static final long ID = 1L;
     public static final String CATEGORY_NAME = "Category name";
-    public static final String URL = "/api/v1/categories/";
+    public static final String CATEGORY_URL = CategoryController.BASE_URL_CATEGORIES + "/" + ID;
 
     @Mock
     CategoryRepository categoryRepository;
@@ -60,7 +61,7 @@ class CategoryServiceImplTest {
         CategoryDTO foundCategory = categoryService.getCategoryByName(CATEGORY_NAME);
 
         assertEquals(CATEGORY_NAME, foundCategory.getName());
-        assertEquals(URL + ID, foundCategory.getCategoryUrl());
+        assertEquals(CATEGORY_URL, foundCategory.getCategoryUrl());
     }
 
     @Test
@@ -70,6 +71,6 @@ class CategoryServiceImplTest {
         CategoryDTO foundCategory = categoryService.getCategoryById(ID);
 
         assertEquals(ID, foundCategory.getId());
-        assertEquals(URL + ID, foundCategory.getCategoryUrl());
+        assertEquals(CATEGORY_URL, foundCategory.getCategoryUrl());
     }
 }
