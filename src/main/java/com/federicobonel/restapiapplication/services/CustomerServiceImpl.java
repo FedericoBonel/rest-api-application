@@ -80,7 +80,12 @@ public class CustomerServiceImpl implements CustomerService {
                     savedCustomer.setCustomerUrl(BASE_URL + id);
                     return savedCustomer;
                 })
-                .orElse(null);
+                .orElseThrow(() -> new RuntimeException("Customer with id " + id + " not found"));
+    }
+
+    @Override
+    public void deleteCustomerById(Long id) {
+        customerRepository.deleteById(id);
     }
 
 }

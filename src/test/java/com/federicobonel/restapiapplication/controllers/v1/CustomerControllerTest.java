@@ -107,4 +107,29 @@ class CustomerControllerTest {
 
         verify(customerService).updateCustomer(anyLong(), any(CustomerDTO.class));
     }
+
+    @Test
+    void patchCustomer() throws Exception {
+        when(customerService.patchCustomer(anyLong(), any(CustomerDTO.class))).thenReturn(customer);
+
+        mockMvc.perform(patch("/api/v1/customers/" + ID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(ObjectToJson.convertToJson(customer)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", equalTo(Math.toIntExact(customer.getId()))))
+                .andExpect(jsonPath("$.name", equalTo(NAME)))
+                .andExpect(jsonPath("$.lastname", equalTo(LASTNAME)))
+                .andExpect(jsonPath("$.customer_url", equalTo(CUSTOMER_URL)));
+
+        verify(customerService).patchCustomer(anyLong(), any(CustomerDTO.class));
+    }
+
+    @Test
+    void deleteCustomer() throws Exception {
+
+        mockMvc.perform(delete("/api/v1/customers/" + ID))
+                .andExpect(status().isOk());
+
+        verify(customerService).deleteCustomerById(anyLong());
+    }
 }

@@ -90,4 +90,11 @@ class CustomerServiceImplTest {
         assertEquals(LASTNAME, savedCustomer.getLastname());
         assertEquals(CUSTOMER_URL, savedCustomer.getCustomerUrl());
     }
+
+    @Test
+    void deleteCustomerById() {
+        customerService.deleteCustomerById(ID);
+
+        verify(customerRepository).deleteById(ID);
+    }
 }
