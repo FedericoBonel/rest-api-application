@@ -130,6 +130,6 @@ class CustomerControllerTest {
         mockMvc.perform(delete(CUSTOMER_URL))
                 .andExpect(status().isOk());
 
-        verify(customerService).deleteCustomerById(anyLong());
+        verify(customerService).deleteCustomerById(ID);
     }
 }

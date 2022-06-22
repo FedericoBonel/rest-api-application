@@ -12,7 +12,6 @@ class CustomerMapperTest {
     public static final long ID = 1L;
     public static final String NAME = "Federico";
     public static final String LASTNAME = "Bonel";
-    public static final String CUSTOMER_URL = "https://randomUrl.com";
 
     Customer customer;
 

@@ -2,8 +2,10 @@ package com.federicobonel.restapiapplication.datainitializer;
 
 import com.federicobonel.restapiapplication.model.Category;
 import com.federicobonel.restapiapplication.model.Customer;
+import com.federicobonel.restapiapplication.model.Vendor;
 import com.federicobonel.restapiapplication.repositories.CategoryRepository;
 import com.federicobonel.restapiapplication.repositories.CustomerRepository;
+import com.federicobonel.restapiapplication.repositories.VendorRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -16,10 +18,14 @@ public class DataInitializer implements CommandLineRunner {
 
     private final CategoryRepository categoryRepository;
     private final CustomerRepository customerRepository;
+    private final VendorRepository vendorRepository;
 
-    public DataInitializer(CategoryRepository categoryRepository, CustomerRepository customerRepository) {
+    public DataInitializer(CategoryRepository categoryRepository,
+                           CustomerRepository customerRepository,
+                           VendorRepository vendorRepository) {
         this.categoryRepository = categoryRepository;
         this.customerRepository = customerRepository;
+        this.vendorRepository = vendorRepository;
     }
 
     @Override
@@ -30,6 +36,27 @@ public class DataInitializer implements CommandLineRunner {
         if (customerRepository.count() == 0) {
             initializeCustomers();
         }
+        if (vendorRepository.count() == 0) {
+            initializeVendors();
+        }
+    }
+
+    private void initializeVendors() {
+        Vendor vendor1 = new Vendor();
+        vendor1.setName("Carrefour");
+
+        Vendor vendor2 = new Vendor();
+        vendor2.setName("Disco");
+
+        Vendor vendor3 = new Vendor();
+        vendor3.setName("Naniwaya");
+
+        Vendor vendor4 = new Vendor();
+        vendor4.setName("Hanamasa");
+
+        vendorRepository.saveAll(List.of(vendor1, vendor2, vendor3, vendor4));
+
+        log.info("Data initializer -> vendors initialized!");
     }
 
     private void initializeCustomers() {

@@ -4,9 +4,9 @@ package com.federicobonel.restapiapplication.services;
 import com.federicobonel.restapiapplication.api.v1.mapper.CustomerMapper;
 import com.federicobonel.restapiapplication.api.v1.model.CustomerDTO;
 import com.federicobonel.restapiapplication.datainitializer.DataInitializer;
-import com.federicobonel.restapiapplication.model.Customer;
 import com.federicobonel.restapiapplication.repositories.CategoryRepository;
 import com.federicobonel.restapiapplication.repositories.CustomerRepository;
+import com.federicobonel.restapiapplication.repositories.VendorRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,6 +29,9 @@ public class CustomerServiceImplIntegrationTest {
     @Autowired
     CategoryRepository categoryRepository;
 
+    @Autowired
+    VendorRepository vendorRepository;
+
     CustomerService customerService;
 
     CustomerDTO customerToPatch;
@@ -37,7 +40,7 @@ public class CustomerServiceImplIntegrationTest {
     void setUp() {
         
         // Initializing data
-        new DataInitializer(categoryRepository, customerRepository).run();
+        new DataInitializer(categoryRepository, customerRepository, vendorRepository).run();
         
         customerService = new CustomerServiceImpl(customerRepository, CustomerMapper.INSTANCE);
         
