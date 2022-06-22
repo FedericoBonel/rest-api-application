@@ -35,9 +35,9 @@ public class VendorServiceImpl implements VendorService {
     public VendorDTO getById(Long id) {
         return vendorRepository.findById(id)
                 .map(vendor -> {
-                        VendorDTO vendorDTO = mapper.vendorToVendorDTO(vendor);
-                        vendorDTO.setVendorUrl(generateUrlForId(vendor.getId()));
-                        return vendorDTO;
+                    VendorDTO vendorDTO = mapper.vendorToVendorDTO(vendor);
+                    vendorDTO.setVendorUrl(generateUrlForId(vendor.getId()));
+                    return vendorDTO;
                 })
                 .orElseThrow(ResourceNotFoundException::new);
     }

@@ -5,17 +5,15 @@ import com.federicobonel.restapiapplication.model.Customer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CustomerMapperTest {
 
     public static final long ID = 1L;
     public static final String NAME = "Federico";
     public static final String LASTNAME = "Bonel";
-
+    final CustomerMapper customerMapper = CustomerMapper.INSTANCE;
     Customer customer;
-
-    CustomerMapper customerMapper = CustomerMapper.INSTANCE;
 
     @BeforeEach
     void setUp() {

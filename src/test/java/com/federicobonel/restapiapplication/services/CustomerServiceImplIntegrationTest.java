@@ -22,7 +22,7 @@ public class CustomerServiceImplIntegrationTest {
 
     final static String NAME = "New Name";
     final static String LASTNAME = "New Lastname";
-    
+
     @Autowired
     CustomerRepository customerRepository;
 
@@ -38,12 +38,12 @@ public class CustomerServiceImplIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        
+
         // Initializing data
         new DataInitializer(categoryRepository, customerRepository, vendorRepository).run();
-        
+
         customerService = new CustomerServiceImpl(customerRepository, CustomerMapper.INSTANCE);
-        
+
         customerToPatch = new CustomerDTO();
     }
 

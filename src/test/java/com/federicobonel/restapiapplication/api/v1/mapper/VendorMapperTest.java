@@ -1,22 +1,19 @@
 package com.federicobonel.restapiapplication.api.v1.mapper;
 
 import com.federicobonel.restapiapplication.api.v1.model.VendorDTO;
-import com.federicobonel.restapiapplication.model.Customer;
 import com.federicobonel.restapiapplication.model.Vendor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class VendorMapperTest {
 
     public static final long ID = 1L;
     public static final String NAME = "Carrefour";
-
+    final VendorMapper mapper = VendorMapper.INSTANCE;
     Vendor vendor;
     VendorDTO vendorDTO;
-
-    VendorMapper mapper = VendorMapper.INSTANCE;
 
     @BeforeEach
     void setUp() {

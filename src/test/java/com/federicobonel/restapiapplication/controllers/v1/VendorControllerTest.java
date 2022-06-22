@@ -2,9 +2,7 @@ package com.federicobonel.restapiapplication.controllers.v1;
 
 import com.federicobonel.restapiapplication.api.v1.mapper.VendorMapper;
 import com.federicobonel.restapiapplication.api.v1.model.VendorDTO;
-import com.federicobonel.restapiapplication.model.Vendor;
 import com.federicobonel.restapiapplication.services.VendorService;
-import com.federicobonel.restapiapplication.services.VendorServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,8 +18,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -61,7 +59,7 @@ class VendorControllerTest {
 
     @Test
     void getAllVendors() throws Exception {
-        when(vendorService.getAll()).thenReturn(vendors);
+        given(vendorService.getAll()).willReturn(vendors);
 
         mockMvc.perform(get(VendorController.BASE_URL_VENDOR))
                 .andExpect(status().isOk())
@@ -70,7 +68,7 @@ class VendorControllerTest {
 
     @Test
     void getById() throws Exception {
-        when(vendorService.getById(ID)).thenReturn(vendor);
+        given(vendorService.getById(ID)).willReturn(vendor);
 
         mockMvc.perform(get(VENDOR_URL))
                 .andExpect(status().isOk())
@@ -81,7 +79,7 @@ class VendorControllerTest {
 
     @Test
     void createNewVendor() throws Exception {
-        when(vendorService.createVendor(any(VendorDTO.class))).thenReturn(vendor);
+        given(vendorService.createVendor(any(VendorDTO.class))).willReturn(vendor);
 
         mockMvc.perform(post(VendorController.BASE_URL_VENDOR)
                         .content(ObjectToJson.convertToJson(vendor))
@@ -94,7 +92,7 @@ class VendorControllerTest {
 
     @Test
     void updateVendor() throws Exception {
-        when(vendorService.updateVendor(anyLong(), any(VendorDTO.class))).thenReturn(vendor);
+        given(vendorService.updateVendor(anyLong(), any(VendorDTO.class))).willReturn(vendor);
 
         mockMvc.perform(put(VENDOR_URL)
                         .content(ObjectToJson.convertToJson(vendor))
@@ -107,7 +105,7 @@ class VendorControllerTest {
 
     @Test
     void patchVendor() throws Exception {
-        when(vendorService.patchVendor(anyLong(), any(VendorDTO.class))).thenReturn(vendor);
+        given(vendorService.patchVendor(anyLong(), any(VendorDTO.class))).willReturn(vendor);
 
         mockMvc.perform(patch(VENDOR_URL)
                         .content(ObjectToJson.convertToJson(vendor))
@@ -123,6 +121,6 @@ class VendorControllerTest {
         mockMvc.perform(delete(VENDOR_URL))
                 .andExpect(status().isOk());
 
-        verify(vendorService).deleteById(ID);
+        then(vendorService).should().deleteById(ID);
     }
 }

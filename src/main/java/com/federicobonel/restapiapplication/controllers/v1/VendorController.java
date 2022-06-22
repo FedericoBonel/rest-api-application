@@ -62,7 +62,7 @@ public class VendorController {
 
     @DeleteMapping("/{vendorId}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteVendor(@PathVariable Long vendorId){
+    public void deleteVendor(@PathVariable Long vendorId) {
         log.info("Deleting vendor with id " + vendorId);
 
         vendorService.deleteById(vendorId);

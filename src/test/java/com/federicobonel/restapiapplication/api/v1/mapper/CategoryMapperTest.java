@@ -11,7 +11,7 @@ class CategoryMapperTest {
     public static final long ID = 1L;
     public static final String CATEGORY = "FRUITS";
 
-    CategoryMapper categoryMapper = CategoryMapper.INSTANCE;
+    final CategoryMapper categoryMapper = CategoryMapper.INSTANCE;
 
     @Test
     void categoryToCategoryDTO() {

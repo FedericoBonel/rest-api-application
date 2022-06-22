@@ -1,11 +1,8 @@
 package com.federicobonel.restapiapplication.services;
 
-import com.federicobonel.restapiapplication.api.v1.mapper.CustomerMapper;
 import com.federicobonel.restapiapplication.api.v1.mapper.VendorMapper;
-import com.federicobonel.restapiapplication.api.v1.model.CustomerDTO;
 import com.federicobonel.restapiapplication.api.v1.model.VendorDTO;
 import com.federicobonel.restapiapplication.controllers.v1.VendorController;
-import com.federicobonel.restapiapplication.model.Customer;
 import com.federicobonel.restapiapplication.model.Vendor;
 import com.federicobonel.restapiapplication.repositories.VendorRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,14 +23,12 @@ class VendorServiceImplTest {
     public static final long ID = 1L;
     public static final String NAME = "Carrefour";
     public static final String VENDOR_URL = VendorController.BASE_URL_VENDOR + "/" + ID;
-
+    final VendorMapper vendorMapper = VendorMapper.INSTANCE;
     Vendor vendor;
     List<Vendor> vendors;
-
     @Mock
     VendorRepository vendorRepository;
     VendorService vendorService;
-    VendorMapper vendorMapper = VendorMapper.INSTANCE;
 
     @BeforeEach
     void setUp() {

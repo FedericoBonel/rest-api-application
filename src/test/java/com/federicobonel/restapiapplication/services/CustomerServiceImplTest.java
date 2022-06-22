@@ -13,7 +13,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -24,14 +24,12 @@ class CustomerServiceImplTest {
     public static final String NAME = "Federico";
     public static final String LASTNAME = "Bonel";
     public static final String CUSTOMER_URL = CustomerController.BASE_URL_CUSTOMERS + "/" + ID;
-
+    final CustomerMapper customerMapper = CustomerMapper.INSTANCE;
     Customer customer;
     List<Customer> customers;
-
     @Mock
     CustomerRepository customerRepository;
     CustomerService customerService;
-    CustomerMapper customerMapper = CustomerMapper.INSTANCE;
 
     @BeforeEach
     void setUp() {

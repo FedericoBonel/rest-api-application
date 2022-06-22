@@ -4,7 +4,6 @@ import com.federicobonel.restapiapplication.api.v1.mapper.CategoryMapper;
 import com.federicobonel.restapiapplication.api.v1.model.CategoryDTO;
 import com.federicobonel.restapiapplication.controllers.v1.CategoryController;
 import com.federicobonel.restapiapplication.exceptions.ResourceNotFoundException;
-import com.federicobonel.restapiapplication.model.Category;
 import com.federicobonel.restapiapplication.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
 
