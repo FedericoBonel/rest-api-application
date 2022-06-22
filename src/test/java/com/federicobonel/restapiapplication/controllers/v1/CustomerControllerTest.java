@@ -1,11 +1,7 @@
 package com.federicobonel.restapiapplication.controllers.v1;
 
-import com.federicobonel.restapiapplication.api.v1.mapper.CustomerMapper;
 import com.federicobonel.restapiapplication.api.v1.model.CustomerDTO;
-import com.federicobonel.restapiapplication.model.Customer;
-import com.federicobonel.restapiapplication.repositories.CustomerRepository;
 import com.federicobonel.restapiapplication.services.CustomerService;
-import com.federicobonel.restapiapplication.services.CustomerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,10 +16,10 @@ import java.util.List;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -83,8 +79,8 @@ class CustomerControllerTest {
     }
 
     @Test
-    void createNewUser() throws Exception {
-        when(customerService.saveCustomer(any(CustomerDTO.class))).thenReturn(customer);
+    void createNewCustomer() throws Exception {
+        when(customerService.createCustomer(any(CustomerDTO.class))).thenReturn(customer);
 
         mockMvc.perform(post("/api/v1/customers/")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -93,6 +89,22 @@ class CustomerControllerTest {
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
                 .andExpect(jsonPath("$.customer_url", equalTo(CUSTOMER_URL)));
 
-        verify(customerService).saveCustomer(any(CustomerDTO.class));
+        verify(customerService).createCustomer(any(CustomerDTO.class));
+    }
+
+    @Test
+    void updateCustomer() throws Exception {
+        when(customerService.updateCustomer(anyLong(), any(CustomerDTO.class))).thenReturn(customer);
+
+        mockMvc.perform(put("/api/v1/customers/" + ID)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(ObjectToJson.convertToJson(customer)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", equalTo(Math.toIntExact(customer.getId()))))
+                .andExpect(jsonPath("$.name", equalTo(NAME)))
+                .andExpect(jsonPath("$.lastname", equalTo(LASTNAME)))
+                .andExpect(jsonPath("$.customer_url", equalTo(CUSTOMER_URL)));
+
+        verify(customerService).updateCustomer(anyLong(), any(CustomerDTO.class));
     }
 }

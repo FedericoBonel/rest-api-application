@@ -68,10 +68,22 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void saveCustomer() {
+    void createCustomer() {
         when(customerRepository.save(any(Customer.class))).thenReturn(customer);
 
-        CustomerDTO savedCustomer = customerService.saveCustomer(customerMapper.customerToCustomerDTO(customer));
+        CustomerDTO savedCustomer = customerService.createCustomer(customerMapper.customerToCustomerDTO(customer));
+
+        assertEquals(ID, savedCustomer.getId());
+        assertEquals(NAME, savedCustomer.getName());
+        assertEquals(LASTNAME, savedCustomer.getLastname());
+        assertEquals(CUSTOMER_URL, savedCustomer.getCustomerUrl());
+    }
+
+    @Test
+    void updateCustomer() {
+        when(customerRepository.save(any(Customer.class))).thenReturn(customer);
+
+        CustomerDTO savedCustomer = customerService.updateCustomer(ID, customerMapper.customerToCustomerDTO(customer));
 
         assertEquals(ID, savedCustomer.getId());
         assertEquals(NAME, savedCustomer.getName());

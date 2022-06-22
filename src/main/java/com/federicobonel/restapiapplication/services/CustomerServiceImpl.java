@@ -45,12 +45,42 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDTO saveCustomer(CustomerDTO customerDTO) {
+    public CustomerDTO createCustomer(CustomerDTO customerDTO) {
+        return saveCustomer(customerDTO);
+    }
+
+    @Override
+    public CustomerDTO updateCustomer(Long id, CustomerDTO customerDTO) {
+        customerDTO.setId(id);
+        return saveCustomer(customerDTO);
+    }
+
+    private CustomerDTO saveCustomer(CustomerDTO customerDTO) {
         Customer savedCustomer = customerRepository.save(customerMapper.customerDTOToCustomer(customerDTO));
         CustomerDTO customerToReturn = customerMapper.customerToCustomerDTO(savedCustomer);
         customerToReturn.setCustomerUrl(BASE_URL + customerToReturn.getId());
 
         return customerToReturn;
+    }
+
+    @Override
+    public CustomerDTO patchCustomer(Long id, CustomerDTO customerToSave) {
+        return customerRepository.findById(id)
+                .map(customerInDB -> {
+                    // Check if fields are set, if so update them and save the customer
+                    if (customerToSave.getName() != null) {
+                        customerInDB.setName(customerToSave.getName());
+                    }
+
+                    if (customerToSave.getLastname() != null) {
+                        customerInDB.setLastname(customerToSave.getLastname());
+                    }
+
+                    CustomerDTO savedCustomer = customerMapper.customerToCustomerDTO(customerRepository.save(customerInDB));
+                    savedCustomer.setCustomerUrl(BASE_URL + id);
+                    return savedCustomer;
+                })
+                .orElse(null);
     }
 
 }

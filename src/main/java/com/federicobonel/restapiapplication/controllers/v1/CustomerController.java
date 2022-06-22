@@ -37,9 +37,24 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<CustomerDTO> saveCustomer(@RequestBody CustomerDTO customerDTO) {
-        log.info("Saving customer " + customerDTO.getName());
+    public ResponseEntity<CustomerDTO> createNewCustomer(@RequestBody CustomerDTO customerDTO) {
+        log.info("Creating customer " + customerDTO.getName());
 
-        return new ResponseEntity<>(customerService.saveCustomer(customerDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(customerService.createCustomer(customerDTO), HttpStatus.CREATED);
     }
+
+    @PutMapping("/{customerId}")
+    public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable Long customerId, @RequestBody CustomerDTO customerDTO) {
+        log.info("Updating customer with id " + customerId);
+
+        return new ResponseEntity<>(customerService.updateCustomer(customerId, customerDTO), HttpStatus.OK);
+    }
+
+    @PatchMapping("/{customerId}")
+    public ResponseEntity<CustomerDTO> patchCustomer(@PathVariable Long customerId, @RequestBody CustomerDTO customerDTO) {
+        log.info("Patching customer with id " + customerId);
+
+        return new ResponseEntity<>(customerService.patchCustomer(customerId, customerDTO), HttpStatus.OK);
+    }
+
 }
