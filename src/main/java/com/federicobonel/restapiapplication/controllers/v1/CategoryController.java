@@ -5,14 +5,10 @@ import com.federicobonel.restapiapplication.api.v1.model.CategoryListDTO;
 import com.federicobonel.restapiapplication.services.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@Controller
+@RestController
 @RequestMapping(CategoryController.BASE_URL_CATEGORIES)
 public class CategoryController {
 
@@ -24,25 +20,26 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<CategoryListDTO> getAllCategories() {
+    @ResponseStatus(HttpStatus.OK)
+    public CategoryListDTO getAllCategories() {
         log.info("Finding all categories...");
 
-        return new ResponseEntity<>(
-                new CategoryListDTO(categoryService.getAll()), HttpStatus.OK
-        );
+        return new CategoryListDTO(categoryService.getAll());
     }
 
     @GetMapping("/{categoryId}")
-    public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Long categoryId) {
+    @ResponseStatus(HttpStatus.OK)
+    public CategoryDTO getCategoryById(@PathVariable Long categoryId) {
         log.info("Finding by category by id " + categoryId);
 
-        return new ResponseEntity<>(categoryService.getCategoryById(categoryId), HttpStatus.OK);
+        return categoryService.getCategoryById(categoryId);
     }
 
     @GetMapping("/name/{categoryName}")
-    public ResponseEntity<CategoryDTO> getCategoryByName(@PathVariable String categoryName) {
+    @ResponseStatus(HttpStatus.OK)
+    public CategoryDTO getCategoryByName(@PathVariable String categoryName) {
         log.info("Finding by category by name " + categoryName);
 
-        return new ResponseEntity<>(categoryService.getCategoryByName(categoryName), HttpStatus.OK);
+        return categoryService.getCategoryByName(categoryName);
     }
 }
