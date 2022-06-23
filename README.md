@@ -6,5 +6,5 @@ Simple rest api application to play around with Spring MVC Rest development.
 Simulates data exposure for a shop.
 
 
-### Take a look at the Swagger UI!
+### Take a look at the Swagger UI website!
 ![SwaggerUI](https://media1.giphy.com/media/lp4ODYqIHe2q3Bb8rg/giphy.gif?cid=790b761111b38551bff8899e71011791b92ceaed44d6eb30&rid=giphy.gif&ct=g)
