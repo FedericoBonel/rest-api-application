@@ -22,7 +22,6 @@ class VendorMapperTest {
         vendor.setName(NAME);
 
         vendorDTO = new VendorDTO();
-        vendorDTO.setId(ID);
         vendorDTO.setName(NAME);
     }
 
@@ -30,7 +29,6 @@ class VendorMapperTest {
     void vendorToVendorDTO() {
         VendorDTO convertedVendor = mapper.vendorToVendorDTO(vendor);
 
-        assertEquals(ID, convertedVendor.getId());
         assertEquals(NAME, convertedVendor.getName());
     }
 
@@ -38,7 +36,6 @@ class VendorMapperTest {
     void vendorDTOToVendor() {
         Vendor convertedVendor = mapper.vendorDTOToVendor(vendorDTO);
 
-        assertEquals(ID, convertedVendor.getId());
         assertEquals(NAME, convertedVendor.getName());
     }
 }

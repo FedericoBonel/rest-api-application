@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class VendorDTO {
-    Long id;
+
     String name;
 
     @JsonProperty("vendor_url")

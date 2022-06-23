@@ -50,13 +50,11 @@ public class CustomerServiceImplIntegrationTest {
     @Test
     void patchName() {
         Long idFirstCustomer = findFirstId();
-        customerToPatch.setId(idFirstCustomer);
         customerToPatch.setName(NAME);
 
         CustomerDTO savedCustomer = customerService.patchCustomer(idFirstCustomer, customerToPatch);
 
         assertNotNull(savedCustomer);
-        assertEquals(idFirstCustomer, savedCustomer.getId());
         assertEquals(NAME, savedCustomer.getName());
         assertNotEquals(LASTNAME, savedCustomer.getLastname());
     }
@@ -64,13 +62,11 @@ public class CustomerServiceImplIntegrationTest {
     @Test
     void patchLastName() {
         Long idFirstCustomer = findFirstId();
-        customerToPatch.setId(idFirstCustomer);
         customerToPatch.setLastname(LASTNAME);
 
         CustomerDTO savedCustomer = customerService.patchCustomer(idFirstCustomer, customerToPatch);
 
         assertNotNull(savedCustomer);
-        assertEquals(idFirstCustomer, savedCustomer.getId());
         assertEquals(LASTNAME, savedCustomer.getLastname());
         assertNotEquals(NAME, savedCustomer.getLastname());
     }

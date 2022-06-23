@@ -60,7 +60,6 @@ class VendorServiceImplTest {
 
         VendorDTO foundVendor = vendorService.getById(ID);
 
-        assertEquals(ID, foundVendor.getId());
         assertEquals(VENDOR_URL, foundVendor.getVendorUrl());
         verify(vendorRepository).findById(ID);
     }
@@ -71,7 +70,6 @@ class VendorServiceImplTest {
 
         VendorDTO savedCustomer = vendorService.createVendor(vendorMapper.vendorToVendorDTO(vendor));
 
-        assertEquals(ID, savedCustomer.getId());
         assertEquals(NAME, savedCustomer.getName());
         assertEquals(VENDOR_URL, savedCustomer.getVendorUrl());
     }
@@ -82,7 +80,6 @@ class VendorServiceImplTest {
 
         VendorDTO savedCustomer = vendorService.updateVendor(ID, vendorMapper.vendorToVendorDTO(vendor));
 
-        assertEquals(ID, savedCustomer.getId());
         assertEquals(NAME, savedCustomer.getName());
         assertEquals(VENDOR_URL, savedCustomer.getVendorUrl());
     }
@@ -94,7 +91,6 @@ class VendorServiceImplTest {
 
         VendorDTO savedCustomer = vendorService.patchVendor(ID, vendorMapper.vendorToVendorDTO(vendor));
 
-        assertEquals(ID, savedCustomer.getId());
         assertEquals(NAME, savedCustomer.getName());
         assertEquals(VENDOR_URL, savedCustomer.getVendorUrl());
     }

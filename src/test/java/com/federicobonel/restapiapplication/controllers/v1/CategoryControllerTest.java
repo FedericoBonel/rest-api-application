@@ -43,8 +43,8 @@ class CategoryControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(categoryController).build();
 
         category = new CategoryDTO();
-        category.setId(ID);
         category.setName(CATEGORY_NAME);
+        category.setCategoryUrl(CATEGORY_URL);
 
         categories = List.of(new CategoryDTO(), new CategoryDTO(), new CategoryDTO());
     }
@@ -66,7 +66,7 @@ class CategoryControllerTest {
 
         mockMvc.perform(get(CATEGORY_URL))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo(Math.toIntExact(category.getId()))));
+                .andExpect(jsonPath("$.category_url", equalTo(CATEGORY_URL)));
 
         verify(categoryService).getCategoryById(ID);
     }

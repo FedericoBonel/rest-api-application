@@ -47,7 +47,6 @@ class CustomerControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(customerController).build();
 
         customer = new CustomerDTO();
-        customer.setId(ID);
         customer.setName(NAME);
         customer.setLastname(LASTNAME);
         customer.setCustomerUrl(CUSTOMER_URL);
@@ -73,7 +72,7 @@ class CustomerControllerTest {
 
         mockMvc.perform(get(CUSTOMER_URL))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo(Math.toIntExact(customer.getId()))));
+                .andExpect(jsonPath("$.customer_url", equalTo(CUSTOMER_URL)));
 
         verify(customerService).getById(ID);
     }
@@ -100,7 +99,6 @@ class CustomerControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ObjectToJson.convertToJson(customer)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo(Math.toIntExact(customer.getId()))))
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
                 .andExpect(jsonPath("$.lastname", equalTo(LASTNAME)))
                 .andExpect(jsonPath("$.customer_url", equalTo(CUSTOMER_URL)));
@@ -116,7 +114,6 @@ class CustomerControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ObjectToJson.convertToJson(customer)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo(Math.toIntExact(customer.getId()))))
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
                 .andExpect(jsonPath("$.lastname", equalTo(LASTNAME)))
                 .andExpect(jsonPath("$.customer_url", equalTo(CUSTOMER_URL)));

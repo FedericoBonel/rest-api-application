@@ -4,6 +4,7 @@ import com.federicobonel.restapiapplication.api.v1.mapper.CategoryMapper;
 import com.federicobonel.restapiapplication.api.v1.model.CategoryDTO;
 import com.federicobonel.restapiapplication.controllers.v1.CategoryController;
 import com.federicobonel.restapiapplication.exceptions.ResourceNotFoundException;
+import com.federicobonel.restapiapplication.model.Category;
 import com.federicobonel.restapiapplication.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -35,10 +36,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO getCategoryByName(String name) {
-        CategoryDTO categoryDTO = categoryMapper
-                .categoryToCategoryDTO(categoryRepository.findByNameContainingIgnoreCase(name));
+        Category foundCategory = categoryRepository.findByNameContainingIgnoreCase(name);
+        CategoryDTO categoryDTO = categoryMapper.categoryToCategoryDTO(foundCategory);
         if (categoryDTO == null) throw new ResourceNotFoundException();
-        categoryDTO.setCategoryUrl(generateUrlForId(categoryDTO.getId()));
+        categoryDTO.setCategoryUrl(generateUrlForId(foundCategory.getId()));
 
         return categoryDTO;
     }
@@ -48,7 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findById(id)
                 .map(categoryMapper::categoryToCategoryDTO)
                 .map(categoryDTO -> {
-                    categoryDTO.setCategoryUrl(generateUrlForId(categoryDTO.getId()));
+                    categoryDTO.setCategoryUrl(generateUrlForId(id));
                     return categoryDTO;
                 })
                 .orElseThrow(ResourceNotFoundException::new);

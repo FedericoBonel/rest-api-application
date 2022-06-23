@@ -70,7 +70,6 @@ class CategoryServiceImplTest {
 
         CategoryDTO foundCategory = categoryService.getCategoryById(ID);
 
-        assertEquals(ID, foundCategory.getId());
         assertEquals(CATEGORY_URL, foundCategory.getCategoryUrl());
     }
 }

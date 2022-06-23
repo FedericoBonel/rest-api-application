@@ -2,12 +2,16 @@ package com.federicobonel.restapiapplication.controllers.v1;
 
 import com.federicobonel.restapiapplication.api.v1.model.CustomerDTO;
 import com.federicobonel.restapiapplication.api.v1.model.CustomerListDTO;
+import com.federicobonel.restapiapplication.config.SwaggerConfig;
 import com.federicobonel.restapiapplication.services.CustomerService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
+@Api(tags = {SwaggerConfig.CUSTOMER_TAG})
 @RestController
 @RequestMapping(CustomerController.BASE_URL_CUSTOMERS)
 public class CustomerController {
@@ -20,6 +24,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+    @ApiOperation(value = "Gets all customers")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public CustomerListDTO getAll() {
@@ -28,6 +33,7 @@ public class CustomerController {
         return new CustomerListDTO(customerService.getAll());
     }
 
+    @ApiOperation(value = "Gets the customer with the given ID", notes = "If no customer is found 404 code is returned")
     @GetMapping("/{customerId}")
     @ResponseStatus(HttpStatus.OK)
     public CustomerDTO findById(@PathVariable Long customerId) {
@@ -36,6 +42,7 @@ public class CustomerController {
         return customerService.getById(customerId);
     }
 
+    @ApiOperation(value = "Creates new customer")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerDTO createNewCustomer(@RequestBody CustomerDTO customerDTO) {
@@ -44,6 +51,8 @@ public class CustomerController {
         return customerService.createCustomer(customerDTO);
     }
 
+    @ApiOperation(value = "Replaces all the information of the given customer",
+            notes = "If any field is not specified in the request payload, it will be set to a 'null' value")
     @PutMapping("/{customerId}")
     @ResponseStatus(HttpStatus.OK)
     public CustomerDTO updateCustomer(@PathVariable Long customerId, @RequestBody CustomerDTO customerDTO) {
@@ -52,6 +61,8 @@ public class CustomerController {
         return customerService.updateCustomer(customerId, customerDTO);
     }
 
+    @ApiOperation(value = "Updates the customer",
+            notes = "Not specified fields are not going to change")
     @PatchMapping("/{customerId}")
     @ResponseStatus(HttpStatus.OK)
     public CustomerDTO patchCustomer(@PathVariable Long customerId, @RequestBody CustomerDTO customerDTO) {
@@ -60,6 +71,8 @@ public class CustomerController {
         return customerService.patchCustomer(customerId, customerDTO);
     }
 
+    @ApiOperation(value = "Deletes the customer with the given ID",
+            notes = "If the customer is not present it will return a 404 code")
     @DeleteMapping("/{customerId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteCustomer(@PathVariable Long customerId) {

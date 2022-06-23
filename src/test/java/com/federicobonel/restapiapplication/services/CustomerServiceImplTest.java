@@ -61,7 +61,6 @@ class CustomerServiceImplTest {
 
         CustomerDTO foundCustomer = customerService.getById(ID);
 
-        assertEquals(ID, foundCustomer.getId());
         assertEquals(CUSTOMER_URL, foundCustomer.getCustomerUrl());
         verify(customerRepository).findById(ID);
     }
@@ -72,7 +71,6 @@ class CustomerServiceImplTest {
 
         CustomerDTO savedCustomer = customerService.createCustomer(customerMapper.customerToCustomerDTO(customer));
 
-        assertEquals(ID, savedCustomer.getId());
         assertEquals(NAME, savedCustomer.getName());
         assertEquals(LASTNAME, savedCustomer.getLastname());
         assertEquals(CUSTOMER_URL, savedCustomer.getCustomerUrl());
@@ -84,7 +82,6 @@ class CustomerServiceImplTest {
 
         CustomerDTO savedCustomer = customerService.updateCustomer(ID, customerMapper.customerToCustomerDTO(customer));
 
-        assertEquals(ID, savedCustomer.getId());
         assertEquals(NAME, savedCustomer.getName());
         assertEquals(LASTNAME, savedCustomer.getLastname());
         assertEquals(CUSTOMER_URL, savedCustomer.getCustomerUrl());

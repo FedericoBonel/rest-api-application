@@ -26,8 +26,11 @@ public class VendorServiceImpl implements VendorService {
     public List<VendorDTO> getAll() {
         return vendorRepository.findAll()
                 .stream()
-                .map(mapper::vendorToVendorDTO)
-                .peek(vendorDTO -> vendorDTO.setVendorUrl(generateUrlForId(vendorDTO.getId())))
+                .map(vendor -> {
+                    VendorDTO convertedVendor = mapper.vendorToVendorDTO(vendor);
+                    convertedVendor.setVendorUrl(generateUrlForId(vendor.getId()));
+                    return convertedVendor;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -44,18 +47,20 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public VendorDTO createVendor(VendorDTO vendorDTO) {
-        vendorDTO.setId(null);
-        return saveVendor(vendorDTO);
+        return saveVendor(null, vendorDTO);
     }
 
     @Override
     public VendorDTO updateVendor(Long id, VendorDTO vendorDTO) {
-        vendorDTO.setId(id);
-        return saveVendor(vendorDTO);
+        return saveVendor(id, vendorDTO);
     }
 
-    private VendorDTO saveVendor(VendorDTO vendorDTO) {
-        Vendor savedVendor = vendorRepository.save(mapper.vendorDTOToVendor(vendorDTO));
+    private VendorDTO saveVendor(Long id, VendorDTO vendorDTO) {
+        Vendor convertedVendor = mapper.vendorDTOToVendor(vendorDTO);
+        convertedVendor.setId(id);
+
+        Vendor savedVendor = vendorRepository.save(convertedVendor);
+
         VendorDTO vendorToReturn = mapper.vendorToVendorDTO(savedVendor);
         vendorToReturn.setVendorUrl(generateUrlForId(savedVendor.getId()));
 
@@ -71,7 +76,7 @@ public class VendorServiceImpl implements VendorService {
                     }
 
                     VendorDTO savedVendor = mapper.vendorToVendorDTO(vendorRepository.save(vendorInDB));
-                    savedVendor.setVendorUrl(generateUrlForId(savedVendor.getId()));
+                    savedVendor.setVendorUrl(generateUrlForId(id));
                     return savedVendor;
                 })
                 .orElseThrow(ResourceNotFoundException::new);

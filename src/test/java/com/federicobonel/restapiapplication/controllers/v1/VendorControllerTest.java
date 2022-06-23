@@ -49,7 +49,6 @@ class VendorControllerTest {
 
         vendorMapper = VendorMapper.INSTANCE;
         vendor = new VendorDTO();
-        vendor.setId(ID);
         vendor.setName(NAME);
         vendor.setVendorUrl(VENDOR_URL);
         vendors = List.of(new VendorDTO(), new VendorDTO(), new VendorDTO());
@@ -72,7 +71,6 @@ class VendorControllerTest {
 
         mockMvc.perform(get(VENDOR_URL))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo(Math.toIntExact(ID))))
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
                 .andExpect(jsonPath("$.vendor_url", equalTo(VENDOR_URL)));
     }
@@ -85,7 +83,6 @@ class VendorControllerTest {
                         .content(ObjectToJson.convertToJson(vendor))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id", equalTo(Math.toIntExact(ID))))
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
                 .andExpect(jsonPath("$.vendor_url", equalTo(VENDOR_URL)));
     }
@@ -98,7 +95,6 @@ class VendorControllerTest {
                         .content(ObjectToJson.convertToJson(vendor))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo(Math.toIntExact(ID))))
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
                 .andExpect(jsonPath("$.vendor_url", equalTo(VENDOR_URL)));
     }
@@ -111,7 +107,6 @@ class VendorControllerTest {
                         .content(ObjectToJson.convertToJson(vendor))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo(Math.toIntExact(ID))))
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
                 .andExpect(jsonPath("$.vendor_url", equalTo(VENDOR_URL)));
     }

@@ -26,8 +26,11 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CustomerDTO> getAll() {
         return customerRepository.findAll()
                 .stream()
-                .map(customerMapper::customerToCustomerDTO)
-                .peek(customer -> customer.setCustomerUrl(generateUrlForId(customer.getId())))
+                .map(customer -> {
+                    CustomerDTO exposedCustomer = customerMapper.customerToCustomerDTO(customer);
+                    exposedCustomer.setCustomerUrl(generateUrlForId(customer.getId()));
+                    return exposedCustomer;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -36,7 +39,7 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findById(id)
                 .map(customerMapper::customerToCustomerDTO)
                 .map(customerDTO -> {
-                    customerDTO.setCustomerUrl(generateUrlForId(customerDTO.getId()));
+                    customerDTO.setCustomerUrl(generateUrlForId(id));
                     return customerDTO;
                 })
                 .orElseThrow(ResourceNotFoundException::new);
@@ -44,20 +47,22 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO createCustomer(CustomerDTO customerDTO) {
-        customerDTO.setId(null);
-        return saveCustomer(customerDTO);
+        return saveCustomer(null, customerDTO);
     }
 
     @Override
     public CustomerDTO updateCustomer(Long id, CustomerDTO customerDTO) {
-        customerDTO.setId(id);
-        return saveCustomer(customerDTO);
+        return saveCustomer(id, customerDTO);
     }
 
-    private CustomerDTO saveCustomer(CustomerDTO customerDTO) {
-        Customer savedCustomer = customerRepository.save(customerMapper.customerDTOToCustomer(customerDTO));
+    private CustomerDTO saveCustomer(Long id, CustomerDTO customerDTO) {
+        Customer customerToSave = customerMapper.customerDTOToCustomer(customerDTO);
+        customerToSave.setId(id);
+
+        Customer savedCustomer = customerRepository.save(customerToSave);
+
         CustomerDTO customerToReturn = customerMapper.customerToCustomerDTO(savedCustomer);
-        customerToReturn.setCustomerUrl(generateUrlForId(customerToReturn.getId()));
+        customerToReturn.setCustomerUrl(generateUrlForId(savedCustomer.getId()));
 
         return customerToReturn;
     }
