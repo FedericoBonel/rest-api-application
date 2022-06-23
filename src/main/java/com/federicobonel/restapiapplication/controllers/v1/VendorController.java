@@ -62,7 +62,7 @@ public class VendorController {
         return vendorService.updateVendor(vendorId, vendorDTO);
     }
 
-    @ApiOperation(value = "Updates the vendor",
+    @ApiOperation(value = "Updates the vendor's fields",
             notes = "Not specified fields are not going to change")
     @PatchMapping("/{vendorId}")
     @ResponseStatus(HttpStatus.OK)
