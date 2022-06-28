@@ -1,15 +1,17 @@
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:element name="CategoryListDTO" type="CategoryListDTOType"/>
-    <xs:complexType name="categoriesType">
+    <xs:element name="CategoryList" type="CategoryList"/>
+
+    <xs:complexType name="Category">
         <xs:sequence>
             <xs:element type="xs:string" name="name" minOccurs="0"/>
-            <xs:element type="xs:string" name="category_url" minOccurs="0"/>
-            <xs:element type="categoriesType" name="categories" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element type="xs:string" name="categoryUrl" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="CategoryListDTOType">
+
+    <xs:complexType name="CategoryList">
         <xs:sequence>
-            <xs:element type="categoriesType" name="categories"/>
+            <xs:element type="Category" name="categories" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
+
 </xs:schema>

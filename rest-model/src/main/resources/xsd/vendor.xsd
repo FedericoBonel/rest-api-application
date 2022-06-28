@@ -1,15 +1,17 @@
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:element name="VendorListDTO" type="VendorListDTOType"/>
-    <xs:complexType name="vendorsType">
+    <xs:element name="VendorList" type="VendorList"/>
+
+    <xs:complexType name="Vendor">
         <xs:sequence>
             <xs:element type="xs:string" name="name" minOccurs="0"/>
             <xs:element type="xs:string" name="vendor_url" minOccurs="0"/>
-            <xs:element type="vendorsType" name="vendors" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
-    <xs:complexType name="VendorListDTOType">
+
+    <xs:complexType name="VendorList">
         <xs:sequence>
-            <xs:element type="vendorsType" name="vendors"/>
+            <xs:element type="Vendor" name="vendors" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
+
 </xs:schema>
