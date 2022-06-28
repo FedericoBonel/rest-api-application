@@ -1,6 +1,7 @@
 package com.federicobonel.restapiapplication.api.v1.mapper;
 
-import com.federicobonel.restapiapplication.api.v1.model.CategoryDTO;
+
+import api.v1.model.CategoryDTO;
 import com.federicobonel.restapiapplication.model.Category;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;

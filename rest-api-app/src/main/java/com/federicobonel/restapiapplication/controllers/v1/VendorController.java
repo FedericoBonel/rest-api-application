@@ -1,7 +1,7 @@
 package com.federicobonel.restapiapplication.controllers.v1;
 
-import com.federicobonel.restapiapplication.api.v1.model.VendorDTO;
-import com.federicobonel.restapiapplication.api.v1.model.VendorListDTO;
+import api.v1.model.VendorDTO;
+import api.v1.model.VendorListDTO;
 import com.federicobonel.restapiapplication.config.SwaggerConfig;
 import com.federicobonel.restapiapplication.services.VendorService;
 import io.swagger.annotations.Api;
@@ -30,7 +30,9 @@ public class VendorController {
     public VendorListDTO getAllVendors() {
         log.info("Getting all vendors");
 
-        return new VendorListDTO(vendorService.getAll());
+        VendorListDTO list = new VendorListDTO();
+        list.getVendors().addAll(vendorService.getAll());
+        return list;
     }
 
     @ApiOperation(value = "Gets the vendor with the given ID",

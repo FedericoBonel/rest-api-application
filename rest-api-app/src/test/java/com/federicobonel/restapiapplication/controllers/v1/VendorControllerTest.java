@@ -1,7 +1,7 @@
 package com.federicobonel.restapiapplication.controllers.v1;
 
 import com.federicobonel.restapiapplication.api.v1.mapper.VendorMapper;
-import com.federicobonel.restapiapplication.api.v1.model.VendorDTO;
+import api.v1.model.VendorDTO;
 import com.federicobonel.restapiapplication.services.VendorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,7 +74,7 @@ class VendorControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
-                .andExpect(jsonPath("$.vendor_url", equalTo(VENDOR_URL)));
+                .andExpect(jsonPath("$.vendorUrl", equalTo(VENDOR_URL)));
     }
 
     @Test
@@ -87,7 +87,7 @@ class VendorControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
-                .andExpect(jsonPath("$.vendor_url", equalTo(VENDOR_URL)));
+                .andExpect(jsonPath("$.vendorUrl", equalTo(VENDOR_URL)));
     }
 
     @Test
@@ -100,7 +100,7 @@ class VendorControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
-                .andExpect(jsonPath("$.vendor_url", equalTo(VENDOR_URL)));
+                .andExpect(jsonPath("$.vendorUrl", equalTo(VENDOR_URL)));
     }
 
     @Test
@@ -113,7 +113,7 @@ class VendorControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
-                .andExpect(jsonPath("$.vendor_url", equalTo(VENDOR_URL)));
+                .andExpect(jsonPath("$.vendorUrl", equalTo(VENDOR_URL)));
     }
 
     @Test

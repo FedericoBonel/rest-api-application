@@ -1,6 +1,6 @@
 package com.federicobonel.restapiapplication.api.v1.mapper;
 
-import com.federicobonel.restapiapplication.api.v1.model.CustomerDTO;
+import api.v1.model.CustomerDTO;
 import com.federicobonel.restapiapplication.model.Customer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

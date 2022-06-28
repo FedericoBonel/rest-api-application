@@ -2,7 +2,7 @@ package com.federicobonel.restapiapplication.services;
 
 
 import com.federicobonel.restapiapplication.api.v1.mapper.CustomerMapper;
-import com.federicobonel.restapiapplication.api.v1.model.CustomerDTO;
+import api.v1.model.CustomerDTO;
 import com.federicobonel.restapiapplication.datainitializer.DataInitializer;
 import com.federicobonel.restapiapplication.repositories.CategoryRepository;
 import com.federicobonel.restapiapplication.repositories.CustomerRepository;

@@ -1,6 +1,6 @@
 package com.federicobonel.restapiapplication.controllers.v1;
 
-import com.federicobonel.restapiapplication.api.v1.model.CategoryDTO;
+import api.v1.model.CategoryDTO;
 import com.federicobonel.restapiapplication.services.CategoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -69,7 +69,7 @@ class CategoryControllerTest {
         mockMvc.perform(get(CATEGORY_URL)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.category_url", equalTo(CATEGORY_URL)));
+                .andExpect(jsonPath("$.categoryUrl", equalTo(CATEGORY_URL)));
 
         verify(categoryService).getCategoryById(ID);
     }

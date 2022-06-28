@@ -1,6 +1,7 @@
 package com.federicobonel.restapiapplication.services;
 
-import com.federicobonel.restapiapplication.api.v1.model.CategoryDTO;
+
+import api.v1.model.CategoryDTO;
 
 import java.util.List;
 

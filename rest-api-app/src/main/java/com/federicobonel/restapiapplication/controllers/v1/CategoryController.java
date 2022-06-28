@@ -1,7 +1,8 @@
 package com.federicobonel.restapiapplication.controllers.v1;
 
-import com.federicobonel.restapiapplication.api.v1.model.CategoryDTO;
-import com.federicobonel.restapiapplication.api.v1.model.CategoryListDTO;
+
+import api.v1.model.CategoryDTO;
+import api.v1.model.CategoryListDTO;
 import com.federicobonel.restapiapplication.config.SwaggerConfig;
 import com.federicobonel.restapiapplication.services.CategoryService;
 import io.swagger.annotations.Api;
@@ -29,7 +30,9 @@ public class CategoryController {
     public CategoryListDTO getAllCategories() {
         log.info("Finding all categories...");
 
-        return new CategoryListDTO(categoryService.getAll());
+        CategoryListDTO list = new CategoryListDTO();
+        list.getCategories().addAll(categoryService.getAll());
+        return list;
     }
 
     @ApiOperation(value = "Gets the category with the given ID", notes = "If no category is found 404 code is returned")
@@ -37,8 +40,8 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.OK)
     public CategoryDTO getCategoryById(@PathVariable Long categoryId) {
         log.info("Finding by category by id " + categoryId);
-
-        return categoryService.getCategoryById(categoryId);
+        CategoryDTO found = categoryService.getCategoryById(categoryId);
+        return found;
     }
 
     @ApiOperation(value = "Gets the category with the given Name", notes = "If no category is found 404 code is returned")

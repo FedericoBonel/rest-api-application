@@ -1,7 +1,7 @@
 package com.federicobonel.restapiapplication.services;
 
 import com.federicobonel.restapiapplication.api.v1.mapper.VendorMapper;
-import com.federicobonel.restapiapplication.api.v1.model.VendorDTO;
+import api.v1.model.VendorDTO;
 import com.federicobonel.restapiapplication.controllers.v1.VendorController;
 import com.federicobonel.restapiapplication.model.Vendor;
 import com.federicobonel.restapiapplication.repositories.VendorRepository;

@@ -1,6 +1,6 @@
 package com.federicobonel.restapiapplication.controllers.v1;
 
-import com.federicobonel.restapiapplication.api.v1.model.CustomerDTO;
+import api.v1.model.CustomerDTO;
 import com.federicobonel.restapiapplication.services.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,7 +74,7 @@ class CustomerControllerTest {
         mockMvc.perform(get(CUSTOMER_URL)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.customer_url", equalTo(CUSTOMER_URL)));
+                .andExpect(jsonPath("$.customerUrl", equalTo(CUSTOMER_URL)));
 
         verify(customerService).getById(ID);
     }
@@ -89,7 +89,7 @@ class CustomerControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
-                .andExpect(jsonPath("$.customer_url", equalTo(CUSTOMER_URL)));
+                .andExpect(jsonPath("$.customerUrl", equalTo(CUSTOMER_URL)));
 
         verify(customerService).createCustomer(any(CustomerDTO.class));
     }
@@ -105,7 +105,7 @@ class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
                 .andExpect(jsonPath("$.lastname", equalTo(LASTNAME)))
-                .andExpect(jsonPath("$.customer_url", equalTo(CUSTOMER_URL)));
+                .andExpect(jsonPath("$.customerUrl", equalTo(CUSTOMER_URL)));
 
         verify(customerService).updateCustomer(anyLong(), any(CustomerDTO.class));
     }
@@ -121,7 +121,7 @@ class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
                 .andExpect(jsonPath("$.lastname", equalTo(LASTNAME)))
-                .andExpect(jsonPath("$.customer_url", equalTo(CUSTOMER_URL)));
+                .andExpect(jsonPath("$.customerUrl", equalTo(CUSTOMER_URL)));
 
         verify(customerService).patchCustomer(anyLong(), any(CustomerDTO.class));
     }

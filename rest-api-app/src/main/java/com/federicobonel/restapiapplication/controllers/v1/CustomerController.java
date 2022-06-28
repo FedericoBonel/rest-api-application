@@ -1,7 +1,7 @@
 package com.federicobonel.restapiapplication.controllers.v1;
 
-import com.federicobonel.restapiapplication.api.v1.model.CustomerDTO;
-import com.federicobonel.restapiapplication.api.v1.model.CustomerListDTO;
+import api.v1.model.CustomerDTO;
+import api.v1.model.CustomerListDTO;
 import com.federicobonel.restapiapplication.config.SwaggerConfig;
 import com.federicobonel.restapiapplication.services.CustomerService;
 import io.swagger.annotations.Api;
@@ -30,7 +30,9 @@ public class CustomerController {
     public CustomerListDTO getAll() {
         log.info("Getting all customers");
 
-        return new CustomerListDTO(customerService.getAll());
+        CustomerListDTO list = new CustomerListDTO();
+        list.getCustomers().addAll(customerService.getAll());
+        return list;
     }
 
     @ApiOperation(value = "Gets the customer with the given ID", notes = "If no customer is found 404 code is returned")
