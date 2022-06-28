@@ -59,7 +59,8 @@ class CustomerControllerTest {
     void getAll() throws Exception {
         when(customerService.getAll()).thenReturn(customers);
 
-        mockMvc.perform(get(CustomerController.BASE_URL_CUSTOMERS))
+        mockMvc.perform(get(CustomerController.BASE_URL_CUSTOMERS)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.customers", hasSize(customers.size())));
 
@@ -70,7 +71,8 @@ class CustomerControllerTest {
     void findById() throws Exception {
         when(customerService.getById(ID)).thenReturn(customer);
 
-        mockMvc.perform(get(CUSTOMER_URL))
+        mockMvc.perform(get(CUSTOMER_URL)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.customer_url", equalTo(CUSTOMER_URL)));
 
@@ -83,7 +85,8 @@ class CustomerControllerTest {
 
         mockMvc.perform(post(CustomerController.BASE_URL_CUSTOMERS)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(ObjectToJson.convertToJson(customer)))
+                        .content(ObjectToJson.convertToJson(customer))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
                 .andExpect(jsonPath("$.customer_url", equalTo(CUSTOMER_URL)));
@@ -97,7 +100,8 @@ class CustomerControllerTest {
 
         mockMvc.perform(put(CUSTOMER_URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(ObjectToJson.convertToJson(customer)))
+                        .content(ObjectToJson.convertToJson(customer))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
                 .andExpect(jsonPath("$.lastname", equalTo(LASTNAME)))
@@ -112,7 +116,8 @@ class CustomerControllerTest {
 
         mockMvc.perform(patch(CUSTOMER_URL)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(ObjectToJson.convertToJson(customer)))
+                        .content(ObjectToJson.convertToJson(customer))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo(NAME)))
                 .andExpect(jsonPath("$.lastname", equalTo(LASTNAME)))

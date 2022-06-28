@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -53,7 +54,8 @@ class CategoryControllerTest {
     void getAllCategories() throws Exception {
         when(categoryService.getAll()).thenReturn(categories);
 
-        mockMvc.perform(get(CategoryController.BASE_URL_CATEGORIES))
+        mockMvc.perform(get(CategoryController.BASE_URL_CATEGORIES)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.categories", hasSize(categories.size())));
 
@@ -64,7 +66,8 @@ class CategoryControllerTest {
     void getCategoryById() throws Exception {
         when(categoryService.getCategoryById(ID)).thenReturn(category);
 
-        mockMvc.perform(get(CATEGORY_URL))
+        mockMvc.perform(get(CATEGORY_URL)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.category_url", equalTo(CATEGORY_URL)));
 
@@ -75,7 +78,8 @@ class CategoryControllerTest {
     void getCategoryByName() throws Exception {
         when(categoryService.getCategoryByName(CATEGORY_NAME)).thenReturn(category);
 
-        mockMvc.perform(get(CATEGORY_URL_NAME))
+        mockMvc.perform(get(CATEGORY_URL_NAME)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo(CATEGORY_NAME)));
 
